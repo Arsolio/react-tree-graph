@@ -47,7 +47,15 @@ function Node(props) {
   return /*#__PURE__*/React.createElement("g", _extends({}, wrappedGProps, {
     transform: getTransform(),
     direction: props.direction === 'rtl' ? 'rtl' : null
-  }), /*#__PURE__*/React.createElement(props.shape, wrappedNodeProps), label);
+  }), props.customVideo ? /*#__PURE__*/React.createElement("foreignObject", wrappedNodeProps, /*#__PURE__*/React.createElement("video", {
+    width: wrappedNodeProps.width,
+    height: wrappedNodeProps.height,
+    preload: "metadata",
+    controls: true
+  }, /*#__PURE__*/React.createElement("source", {
+    src: `${props.videoPath}${props.name}`,
+    type: "video/mp4"
+  }))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(props.shape, wrappedNodeProps), " ", label));
 }
 Node.propTypes = {
   x: PropTypes.number.isRequired,
@@ -58,7 +66,10 @@ Node.propTypes = {
   shape: PropTypes.string.isRequired,
   nodeProps: PropTypes.object.isRequired,
   gProps: PropTypes.object.isRequired,
-  textProps: PropTypes.object.isRequired
+  textProps: PropTypes.object.isRequired,
+  videoPath: PropTypes.string,
+  name: PropTypes.string,
+  customVideo: PropTypes.bool
 };
 
 export { Node as default };

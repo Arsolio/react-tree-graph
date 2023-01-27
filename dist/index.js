@@ -217,11 +217,34 @@
 				transform: getTransform(),
 				direction: props.direction === 'rtl' ? 'rtl' : null,
 			}),
-			/*#__PURE__*/ React__default['default'].createElement(
-				props.shape,
-				wrappedNodeProps
-			),
-			label
+			props.customVideo
+				? /*#__PURE__*/ React__default['default'].createElement(
+						'foreignObject',
+						wrappedNodeProps,
+						/*#__PURE__*/ React__default['default'].createElement(
+							'video',
+							{
+								width: wrappedNodeProps.width,
+								height: wrappedNodeProps.height,
+								preload: 'metadata',
+								controls: true,
+							},
+							/*#__PURE__*/ React__default['default'].createElement('source', {
+								src: `${props.videoPath}${props.name}`,
+								type: 'video/mp4',
+							})
+						)
+				  )
+				: /*#__PURE__*/ React__default['default'].createElement(
+						React__default['default'].Fragment,
+						null,
+						/*#__PURE__*/ React__default['default'].createElement(
+							props.shape,
+							wrappedNodeProps
+						),
+						' ',
+						label
+				  )
 		);
 	}
 	Node.propTypes = {
@@ -234,6 +257,9 @@
 		nodeProps: PropTypes__default['default'].object.isRequired,
 		gProps: PropTypes__default['default'].object.isRequired,
 		textProps: PropTypes__default['default'].object.isRequired,
+		videoPath: PropTypes__default['default'].string,
+		name: PropTypes__default['default'].string,
+		customVideo: PropTypes__default['default'].bool,
 	};
 
 	function Container(props) {

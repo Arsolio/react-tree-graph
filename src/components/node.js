@@ -48,8 +48,14 @@ export default function Node(props) {
 
 	return (
 		<g {...wrappedGProps} transform={getTransform()} direction={props.direction === 'rtl' ? 'rtl' : null}>
-			<props.shape {...wrappedNodeProps}/>
-			{ label }
+			{props.customVideo ? (
+				<foreignObject {...wrappedNodeProps}>
+					<video width={wrappedNodeProps.width} height={wrappedNodeProps.height} preload="metadata" controls>
+						<source src={`${props.videoPath}${props.name}`} type="video/mp4"/>
+					</video>
+				</foreignObject>)
+				: (<><props.shape {...wrappedNodeProps}/> {label}</>)
+			}
 		</g>
 	);
 }
@@ -63,5 +69,8 @@ Node.propTypes = {
 	shape: PropTypes.string.isRequired,
 	nodeProps: PropTypes.object.isRequired,
 	gProps: PropTypes.object.isRequired,
-	textProps: PropTypes.object.isRequired
+	textProps: PropTypes.object.isRequired,
+	videoPath: PropTypes.string,
+	name: PropTypes.string,
+	customVideo: PropTypes.bool
 };
